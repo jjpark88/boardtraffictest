@@ -73,16 +73,16 @@ public class UserController {
     }
 
     @PutMapping("logout")
-    public void logout(String accountId, HttpSession session) {
+    public void logout(HttpSession session) {
         SessionUtil.clear(session);
     }
 
     @PatchMapping("password")
   //  @LoginCheck(type = LoginCheck.UserType.USER)
-    public ResponseEntity<LoginResponse> updateUserPassword(String accountId, @RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest,
+    public ResponseEntity<LoginResponse> updateUserPassword(@RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest,
                                                             HttpSession session) {
         ResponseEntity<LoginResponse> responseEntity = null;
-        String Id = accountId;
+        String Id = SessionUtil.getLoginMemberId(session);
         String beforePassword = userUpdatePasswordRequest.getBeforePassword();
         String afterPassword = userUpdatePasswordRequest.getAfterPassword();
 
