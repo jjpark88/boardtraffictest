@@ -1,5 +1,6 @@
 package com.jjpark.boardServer.controller;
 
+import com.jjpark.boardServer.aop.LoginCheck;
 import com.jjpark.boardServer.dto.UserDTO;
 import com.jjpark.boardServer.dto.request.UserDeleteId;
 import com.jjpark.boardServer.dto.request.UserLoginRequest;
@@ -78,11 +79,12 @@ public class UserController {
     }
 
     @PatchMapping("password")
-  //  @LoginCheck(type = LoginCheck.UserType.USER)
-    public ResponseEntity<LoginResponse> updateUserPassword(@RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest,
+    @LoginCheck(type = LoginCheck.UserType.USER)
+    public ResponseEntity<LoginResponse> updateUserPassword(String accountId, @RequestBody UserUpdatePasswordRequest userUpdatePasswordRequest,
                                                             HttpSession session) {
         ResponseEntity<LoginResponse> responseEntity = null;
-        String Id = SessionUtil.getLoginMemberId(session);
+        //String Id = SessionUtil.getLoginMemberId(session);
+        String Id = accountId;
         String beforePassword = userUpdatePasswordRequest.getBeforePassword();
         String afterPassword = userUpdatePasswordRequest.getAfterPassword();
 
